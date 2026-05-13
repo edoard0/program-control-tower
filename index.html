@@ -165,16 +165,16 @@
   <div class="panel">
     <h2>Next 24h · Key meetings</h2>
     <ul id="meetings">
-      <li class="iv meeting" data-prog="meta" data-section="meetings"><span class="chk"></span><span class="text"><span class="time">Tue 14:30</span>Platform Migration weekly — first session post-charter sign-off; bring vendor shortlist framing<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
-      <li class="iv meeting" data-prog="meta" data-section="meetings"><span class="chk"></span><span class="text"><span class="time">Wed 14:00</span>Customer Platform sync — pilot direction + rollout ADR review<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
-      <li class="iv meeting" data-prog="meta" data-section="meetings"><span class="chk"></span><span class="text"><span class="time">Wed 16:00</span>Tools Consolidation steering — Q3 vendor reduction review<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+      <li class="iv meeting" data-prog="meta" data-section="meetings"><span class="chk"></span><span class="text"><span class="time">Tue 10:00</span>Mobile App v3 weekly — beta wrap-up + GA readiness gate; bring accessibility audit disposition<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+      <li class="iv meeting" data-prog="meta" data-section="meetings"><span class="chk"></span><span class="text"><span class="time">Wed 11:30</span>Payment Rails migration sync — compliance review scheduling + cutover sequencing<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+      <li class="iv meeting" data-prog="meta" data-section="meetings"><span class="chk"></span><span class="text"><span class="time">Thu 15:00</span>Card Rewards steering — partner API integration sign-off + comms send-date lock<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
     </ul>
   </div>
   <div class="panel">
     <h2>Cross-program clashes <span style="text-transform:none;letter-spacing:0;font-weight:normal;color:var(--muted);">· auto-derived</span></h2>
     <div id="clashes">
-      <div class="iv clash" data-prog="meta" data-section="clash"><span class="text"><span class="src">Vendor decision ↔ migration sequencing</span> · The Tools Consolidation EOM vendor-cut decision overlaps the Platform Migration vendor shortlist. Hold both reviews in the same week or one will block the other.<div class="progs"><span class="prog-tag">Platform Migration</span><span class="prog-tag">Tools Consolidation</span></div><button class="note-btn">+ note</button></span></div>
-      <div class="iv clash" data-prog="meta" data-section="clash"><span class="text"><span class="src">Resource clash · Eng Lead on two paths</span> · Engineering Lead owns both Customer Platform GA scope and Platform Migration vendor evaluation. Pick one as primary for the next two weeks.<div class="progs"><span class="prog-tag">Customer Platform</span><span class="prog-tag">Platform Migration</span></div><button class="note-btn">+ note</button></span></div>
+      <div class="iv clash" data-prog="meta" data-section="clash"><span class="text"><span class="src">Rails cutover date ↔ app launch sequencing</span> · Mobile App v3 GA gates on Payment Rails cutover being live. Cutover date still unconfirmed — if it slips past month-end, the app launch date moves with it.<div class="progs"><span class="prog-tag">Mobile App v3</span><span class="prog-tag">Payment Rails</span></div><button class="note-btn">+ note</button></span></div>
+      <div class="iv clash" data-prog="meta" data-section="clash"><span class="text"><span class="src">Resource clash · Eng Lead on two critical paths</span> · Engineering Lead owns both the Rails integration layer and the App v3 backend. Cannot lead both sprint reviews in the same two-week window — one must be delegated.<div class="progs"><span class="prog-tag">Mobile App v3</span><span class="prog-tag">Payment Rails</span></div><button class="note-btn">+ note</button></span></div>
     </div>
   </div>
 </div>
@@ -182,164 +182,164 @@
 <!-- PROGRAM CARDS -->
 <div class="grid">
 
-  <!-- PROGRAM A — Platform Migration -->
-  <div class="card" data-program="platform-migration">
+  <!-- PROGRAM A — Mobile App v3 -->
+  <div class="card" data-program="mobile-app-v3">
     <div class="head">
       <div class="dot y"></div>
       <div class="titles">
-        <h3>Platform Migration (FY27)</h3>
-        <div class="sub">Charter approved · vendor shortlist in progress · pilot kickoff target end of quarter · You = TPM</div>
+        <h3>Mobile App Relaunch (v3)</h3>
+        <div class="sub">Beta closed Mon · GA readiness review Thu · compliance sign-off pending · You = TPM</div>
       </div>
     </div>
 
-    <section class="actions" data-section-id="pm-actions">
+    <section class="actions" data-section-id="ma-actions">
       <div class="label">Next 3 for you</div>
       <ol>
-        <li class="iv" data-prog="platform-migration" data-section="action"><span class="chk"></span><span class="text">Convert the signed charter into a weekly-ready status pack with named asks (pilot owners, participant counts, approval path)<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
-        <li class="iv" data-prog="platform-migration" data-section="action"><span class="chk"></span><span class="text">Schedule async leadership review with GTM Lead + Sales Lead + IT Lead to confirm vendor-shortlist sign-off path<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
-        <li class="iv" data-prog="platform-migration" data-section="action"><span class="chk"></span><span class="text">Verify the security-rejection provenance on candidate vendor before re-citing in any leadership material<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="mobile-app-v3" data-section="action"><span class="chk"></span><span class="text">Consolidate beta exit criteria with Product Lead and QA Lead — accessibility audit findings need disposition before GA gate<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="mobile-app-v3" data-section="action"><span class="chk"></span><span class="text">Confirm compliance sign-off timeline with Risk Lead — updated disclosures required before store submission; currently on the critical path<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="mobile-app-v3" data-section="action"><span class="chk"></span><span class="text">Draft store listing copy and get to Marketing Lead by Wed — 3-week App Store review window starts the clock<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
       </ol>
     </section>
 
-    <section data-section-id="pm-decisions">
+    <section data-section-id="ma-decisions">
       <div class="label">Decisions on others</div>
       <ul>
-        <li class="iv" data-prog="platform-migration" data-section="dec-other"><span class="chk"></span><span class="text"><b>GTM Lead</b> — Confirm GTM-leadership representation path now that they declined the weekly forum <span class="age">·1d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
-        <li class="iv" data-prog="platform-migration" data-section="dec-other"><span class="chk"></span><span class="text"><b>Sales Lead</b> — Agree the leadership ask and approval path for kicking off evaluation and pilot participation <span class="age">·1d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
-        <li class="iv" data-prog="platform-migration" data-section="dec-other"><span class="chk"></span><span class="text"><b>IT Lead</b> — Confirm vendor-shortlist sign-off path and whether to start stakeholder roadshow now or after the QBR readout <span class="age">·1d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="mobile-app-v3" data-section="dec-other"><span class="chk"></span><span class="text"><b>Risk Lead</b> — Sign off on updated disclosure language in beta build <span class="age warn">·2d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="mobile-app-v3" data-section="dec-other"><span class="chk"></span><span class="text"><b>Exec Sponsor</b> — Approve GA date given compliance dependency on Rails cutover <span class="age">·1d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="mobile-app-v3" data-section="dec-other"><span class="chk"></span><span class="text"><b>Design Lead</b> — Resolve 3 open accessibility audit findings from last week's external review <span class="age warn">·3d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
       </ul>
     </section>
 
-    <section data-section-id="pm-raid">
+    <section data-section-id="ma-raid">
       <div class="label">Open RAID</div>
       <div class="raid">
-        <div class="iv" data-prog="platform-migration" data-section="raid"><span class="chk"></span><span class="text"><span class="badge R">R</span><div>Charter sign-off and leadership approval still gating kickoff — doc shows comments resolved but approval status still Not Started</div><span class="meta"><b>GTM Lead / Sales Lead / IT Lead</b> <span class="age crit">·18d</span></span></span><button class="undo">↺ undo</button></div>
-        <div class="iv" data-prog="platform-migration" data-section="raid"><span class="chk"></span><span class="text"><span class="badge R">R</span><div>Leadership ask remains ambiguous: leaders need a crisp request beyond awareness, specifically pilot DRIs and approval scope</div><span class="meta"><b>Sales Lead</b> <span class="age">·1d</span></span></span><button class="undo">↺ undo</button></div>
-        <div class="iv" data-prog="platform-migration" data-section="raid"><span class="chk"></span><span class="text"><span class="badge I">I</span><div>Program direction converging on three candidate vendors; primary front-runner for POC, others as fast-followers</div><span class="meta"><b>Eng Lead</b> <span class="age">·1d</span></span></span><button class="undo">↺ undo</button></div>
-        <div class="iv" data-prog="platform-migration" data-section="raid"><span class="chk"></span><span class="text"><span class="badge D">D</span><div>Decide GTM-leader representative path now that the primary stakeholder declined the weekly — whether they can approve async or a broader review call is required</div><span class="meta"><b>GTM Lead</b> <span class="age">·1d</span></span></span><button class="undo">↺ undo</button></div>
+        <div class="iv" data-prog="mobile-app-v3" data-section="raid"><span class="chk"></span><span class="text"><span class="badge R">R</span><div>GA date depends on Payment Rails cutover; cutover date still unconfirmed — any slip past month-end pushes the app launch</div><span class="meta"><b>Risk Lead / Payments Lead</b> <span class="age warn">·6d</span></span></span><button class="undo">↺ undo</button></div>
+        <div class="iv" data-prog="mobile-app-v3" data-section="raid"><span class="chk"></span><span class="text"><span class="badge R">R</span><div>Accessibility audit found 3 AA violations — store rejection risk if unresolved before submission</div><span class="meta"><b>Design Lead</b> <span class="age warn">·3d</span></span></span><button class="undo">↺ undo</button></div>
+        <div class="iv" data-prog="mobile-app-v3" data-section="raid"><span class="chk"></span><span class="text"><span class="badge I">I</span><div>Beta opt-out rate 12% vs 5% target — root cause traced to notification volume; fix scoped and in next build</div><span class="meta"><b>Product Lead</b> <span class="age warn">·2d</span></span></span><button class="undo">↺ undo</button></div>
+        <div class="iv" data-prog="mobile-app-v3" data-section="raid"><span class="chk"></span><span class="text"><span class="badge D">D</span><div>Compliance disclosure update requires legal sign-off — blocks store submission; Risk Lead review pushed from last week</div><span class="meta"><b>Risk Lead</b> <span class="age warn">·4d</span></span></span><button class="undo">↺ undo</button></div>
       </div>
       <div class="raid-legend">R Risk · A Assumption · I Issue · D Dependency</div>
     </section>
 
     <section>
       <div class="label">What's hot</div>
-      <p style="margin:0;">Weekly forum is in ~90 minutes — primary GTM stakeholder declined, so the forum can't double as leadership sign-off. Charter doc had a final touch this morning. New cross-program signal: an internal post framed Platform Migration as the eventual platform of record for the Customer Platform rollout — reinforces the primary vendor stance. Off-cycle async leadership review still needs scheduling this week.</p>
+      <p style="margin:0;">Beta closed Monday — notification opt-out issue is scoped and in the next build. Compliance disclosure is the real gating item: Risk Lead review was pushed from last week and is now on the critical path into store submission. Rails dependency still floating; if cutover doesn't confirm this week, the GA date needs to move. Accessibility violations need Design Lead to move fast — three AA findings are a store-rejection risk.</p>
     </section>
 
     <details class="refs">
       <summary>Refs (3) · Source: your shared drive</summary>
       <ul>
-        <li><a href="https://example.com/doc/EXAMPLE_DOC_ID_1" target="_blank">Project Charter: FY27 Platform Migration</a></li>
-        <li><a href="https://example.com/deck/EXAMPLE_DOC_ID_2" target="_blank">Platform Migration — Exec Summary</a></li>
-        <li><a href="https://example.com/sheet/EXAMPLE_DOC_ID_3" target="_blank">Vendor Requirements Tracker</a></li>
+        <li><a href="https://example.com/doc/EXAMPLE_DOC_ID_1" target="_blank">Mobile App v3 — GA Readiness Checklist</a></li>
+        <li><a href="https://example.com/deck/EXAMPLE_DOC_ID_2" target="_blank">Beta Wrap-up Exec Summary</a></li>
+        <li><a href="https://example.com/doc/EXAMPLE_DOC_ID_3" target="_blank">Accessibility Audit Report</a></li>
       </ul>
     </details>
   </div>
 
-  <!-- PROGRAM B — Customer Platform -->
-  <div class="card" data-program="customer-platform">
+  <!-- PROGRAM B — Payment Rails Migration -->
+  <div class="card" data-program="payment-rails">
     <div class="head">
       <div class="dot y"></div>
       <div class="titles">
-        <h3>Customer Platform Rollout</h3>
-        <div class="sub">Reset narrative ran Mon · awaiting exec direction · first read-out Wed GTM weekly · You = Program TPM</div>
+        <h3>Payment Rails Migration</h3>
+        <div class="sub">Parallel run live 8 days · compliance review not yet scheduled · cutover date unconfirmed · You = Program TPM</div>
       </div>
     </div>
 
-    <section class="actions" data-section-id="cp-actions">
+    <section class="actions" data-section-id="pr-actions">
       <div class="label">Next 3 for you</div>
       <ol>
-        <li class="iv" data-prog="customer-platform" data-section="action"><span class="chk"></span><span class="text">Lock coupled rollout GA scope/date with Eng Lead + Product Lead in Tue check-in; Wed ADR review feeds in<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
-        <li class="iv" data-prog="customer-platform" data-section="action"><span class="chk"></span><span class="text">Finalize the launch RACI offline with Cross-functional Lead after Wed exec workshop — feed exec readout back same day<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
-        <li class="iv" data-prog="customer-platform" data-section="action"><span class="chk"></span><span class="text">Drive pilot levers per Mon reset call: add 3 reps to pilot, rotate target accounts, expand the data window<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="payment-rails" data-section="action"><span class="chk"></span><span class="text">Lock cutover date with Payments Lead and Eng Lead — parallel run is clean; compliance review is the only remaining gate<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="payment-rails" data-section="action"><span class="chk"></span><span class="text">Get compliance review scheduled with Risk Lead this week — was deprioritized last sprint, now on critical path for both Rails and App v3<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="payment-rails" data-section="action"><span class="chk"></span><span class="text">Confirm rollback playbook sign-off with Eng Lead before the cutover window opens<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
       </ol>
     </section>
 
-    <section data-section-id="cp-decisions">
+    <section data-section-id="pr-decisions">
       <div class="label">Decisions on others</div>
       <ul>
-        <li class="iv" data-prog="customer-platform" data-section="dec-other"><span class="chk"></span><span class="text"><b>IT Lead</b> — Confirm replacement exec reporting cadence and audience after the weekly email cadence stopped <span class="age">·1d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
-        <li class="iv" data-prog="customer-platform" data-section="dec-other"><span class="chk"></span><span class="text"><b>Exec Sponsor</b> — Set board-level direction following the Mon reset review (first surface in Wed GTM weekly) <span class="age">·1d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
-        <li class="iv" data-prog="customer-platform" data-section="dec-other"><span class="chk"></span><span class="text"><b>Cross-functional Lead</b> — Confirm post-launch RACI owners after the soft-launch monitoring window <span class="age">·1d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="payment-rails" data-section="dec-other"><span class="chk"></span><span class="text"><b>Risk Lead</b> — Schedule and complete compliance review; currently blocking cutover date confirmation <span class="age warn">·5d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="payment-rails" data-section="dec-other"><span class="chk"></span><span class="text"><b>Payments Lead</b> — Confirm processor contract SLAs for the post-cutover period <span class="age warn">·2d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="payment-rails" data-section="dec-other"><span class="chk"></span><span class="text"><b>Eng Lead</b> — Sign off on rollback playbook and cutover runbook <span class="age">·1d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
       </ul>
     </section>
 
-    <section data-section-id="cp-raid">
+    <section data-section-id="pr-raid">
       <div class="label">Open RAID</div>
       <div class="raid">
-        <div class="iv" data-prog="customer-platform" data-section="raid"><span class="chk"></span><span class="text"><span class="badge I">I</span><div>First-24h launch telemetry is unreliable — upstream data-lake issues have prevented jobs from completing since last Friday</div><span class="meta"><b>Data Eng Lead</b> <span class="age warn">·5d</span></span></span><button class="undo">↺ undo</button></div>
-        <div class="iv" data-prog="customer-platform" data-section="raid"><span class="chk"></span><span class="text"><span class="badge A">A</span><div>Rollout alignment converges across Tue check-in, Wed ADR review, Fri rollout plan — GA scope/date comms hinge on the coupled plan</div><span class="meta"><b>Eng Lead / Product Lead</b> <span class="age">·1d</span></span></span><button class="undo">↺ undo</button></div>
-        <div class="iv" data-prog="customer-platform" data-section="raid"><span class="chk"></span><span class="text"><span class="badge D">D</span><div>Pilot levers per exec reset: add reps, rotate target accounts, expand signals time horizon — pending exec confirm</div><span class="meta"><b>You / Exec Sponsor</b> <span class="age">·1d</span></span></span><button class="undo">↺ undo</button></div>
-        <div class="iv" data-prog="customer-platform" data-section="raid"><span class="chk"></span><span class="text"><span class="badge R">R</span><div>RACI close-out displaced — you declined the workshop (conflict with exec call). Needs Cross-functional Lead 1:1 follow-through to lock scope post-workshop</div><span class="meta"><b>Cross-functional Lead</b> <span class="age">·1d</span></span></span><button class="undo">↺ undo</button></div>
+        <div class="iv" data-prog="payment-rails" data-section="raid"><span class="chk"></span><span class="text"><span class="badge R">R</span><div>Compliance review not yet scheduled — blocks cutover date confirmation for both Rails and App v3 GA</div><span class="meta"><b>Risk Lead</b> <span class="age warn">·5d</span></span></span><button class="undo">↺ undo</button></div>
+        <div class="iv" data-prog="payment-rails" data-section="raid"><span class="chk"></span><span class="text"><span class="badge A">A</span><div>Parallel run assumed clean after 8 days with no critical failures — formal sign-off pending before cutover proceeds</div><span class="meta"><b>Payments Lead</b> <span class="age">·8d</span></span></span><button class="undo">↺ undo</button></div>
+        <div class="iv" data-prog="payment-rails" data-section="raid"><span class="chk"></span><span class="text"><span class="badge I">I</span><div>3 edge-case transaction types not yet validated in parallel run — low volume but need explicit closure before cutover</div><span class="meta"><b>Eng Lead</b> <span class="age warn">·2d</span></span></span><button class="undo">↺ undo</button></div>
+        <div class="iv" data-prog="payment-rails" data-section="raid"><span class="chk"></span><span class="text"><span class="badge D">D</span><div>App v3 GA gates on Rails cutover being complete — sequencing must be confirmed this week or app launch date moves</div><span class="meta"><b>You</b> <span class="age">·1d</span></span></span><button class="undo">↺ undo</button></div>
       </div>
       <div class="raid-legend">R Risk · A Assumption · I Issue · D Dependency</div>
     </section>
 
     <section>
       <div class="label">What's hot</div>
-      <p style="margin:0;">Pilot moving into "keep current setup + tune levers" mode after Mon reset. Engineering unblock confirmed working. Wed decision: you on GTM weekly for the post-reset readout — workshop runs without you, needs lead follow-through. Upstream data fog still gating clean telemetry. Coupled GA scope to be locked at Tue Eng Lead check-in.</p>
+      <p style="margin:0;">Parallel run is the good news — 8 days, no critical failures. The blocker is compliance review scheduling: Risk Lead deprioritized it last sprint and it's now on the critical path for two programs simultaneously. Edge-case transaction validation is scoped and assigned; should close before the cutover window. Rollback playbook needs one more sign-off pass from Eng Lead.</p>
     </section>
 
     <details class="refs">
       <summary>Refs (3) · Source: your shared drive</summary>
       <ul>
-        <li><a href="https://example.com/deck/EXAMPLE_DOC_ID_4" target="_blank">Customer Platform — Reset Exec Update</a></li>
-        <li><a href="https://example.com/doc/EXAMPLE_DOC_ID_5" target="_blank">Rollout FAQ</a></li>
-        <li><a href="https://example.com/doc/EXAMPLE_DOC_ID_6" target="_blank">GA Rollout Plan</a></li>
+        <li><a href="https://example.com/doc/EXAMPLE_DOC_ID_4" target="_blank">Payment Rails — Cutover Runbook</a></li>
+        <li><a href="https://example.com/sheet/EXAMPLE_DOC_ID_5" target="_blank">Parallel Run Monitoring Log</a></li>
+        <li><a href="https://example.com/doc/EXAMPLE_DOC_ID_6" target="_blank">Processor Contract SLA Summary</a></li>
       </ul>
     </details>
   </div>
 
-  <!-- PROGRAM C — Tools Consolidation -->
-  <div class="card" data-program="tools-consolidation">
+  <!-- PROGRAM C — Card Rewards Redesign -->
+  <div class="card" data-program="card-rewards">
     <div class="head">
       <div class="dot g"></div>
       <div class="titles">
-        <h3>Tools Consolidation</h3>
-        <div class="sub">~13% reduction tracked vs 30–50% goal · centralized tracker live · You = workstream TPM</div>
+        <h3>Card Rewards Redesign</h3>
+        <div class="sub">New structure approved · partner integration in build · comms plan drafted · You = workstream TPM</div>
       </div>
     </div>
 
-    <section class="actions" data-section-id="tc-actions">
+    <section class="actions" data-section-id="cr-actions">
       <div class="label">Next 3 for you</div>
       <ol>
-        <li class="iv" data-prog="tools-consolidation" data-section="action"><span class="chk"></span><span class="text">Confirm vendor renewal-by-EOM path with Procurement Lead and Data Lead — partner API confirmed as replacement for most endpoints<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
-        <li class="iv" data-prog="tools-consolidation" data-section="action"><span class="chk"></span><span class="text">Stand up dedicated rationalization capacity in Wed bi-weekly; onboard new TPM into the workstream<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
-        <li class="iv" data-prog="tools-consolidation" data-section="action"><span class="chk"></span><span class="text">Drive Sales Lead + GTM Lead alignment on the migration sponsorship handoff<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="card-rewards" data-section="action"><span class="chk"></span><span class="text">Review partner API integration test results with Eng Lead — first test run completed Fri, 2 issues logged needing partner fixes<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="card-rewards" data-section="action"><span class="chk"></span><span class="text">Lock cardholder comms send date with Marketing Lead — must go out 14 days before go-live; Marketing approval needed by Thu<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="card-rewards" data-section="action"><span class="chk"></span><span class="text">Confirm CS training schedule with Ops Lead — training window opens next week; new redemption flow needs coverage before launch<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
       </ol>
     </section>
 
-    <section data-section-id="tc-decisions">
+    <section data-section-id="cr-decisions">
       <div class="label">Decisions on others</div>
       <ul>
-        <li class="iv" data-prog="tools-consolidation" data-section="dec-other"><span class="chk"></span><span class="text"><b>Procurement Lead</b> — Decide whether to proceed with vendor renewal by EOM if replacement answers remain incomplete <span class="age">·1d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
-        <li class="iv" data-prog="tools-consolidation" data-section="dec-other"><span class="chk"></span><span class="text"><b>Sales Lead</b> — Confirm migration sponsorship and alignment with GTM Lead ahead of wider engagement <span class="age">·1d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
-        <li class="iv" data-prog="tools-consolidation" data-section="dec-other"><span class="chk"></span><span class="text"><b>Tracker Owner</b> — Maintain the SaaS roadmap tracker and add explicit owner/date assignment for open actions <span class="age">·1d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="card-rewards" data-section="dec-other"><span class="chk"></span><span class="text"><b>Marketing Lead</b> — Approve cardholder comms draft and confirm send date (14-day pre-launch window) <span class="age warn">·2d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="card-rewards" data-section="dec-other"><span class="chk"></span><span class="text"><b>Ops Lead</b> — Confirm CS team training schedule for new rewards redemption flow <span class="age">·1d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="card-rewards" data-section="dec-other"><span class="chk"></span><span class="text"><b>Partner</b> — Resolve 2 open API integration issues from Fri test run; second test run blocked on fixes <span class="age warn">·2d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
       </ul>
     </section>
 
-    <section data-section-id="tc-raid">
+    <section data-section-id="cr-raid">
       <div class="label">Open RAID</div>
       <div class="raid">
-        <div class="iv" data-prog="tools-consolidation" data-section="raid"><span class="chk"></span><span class="text"><span class="badge R">R</span><div>Vendor June decision blocked on replacement comparison, UI-loss and change-management questions</div><span class="meta"><b>Procurement Lead</b> <span class="age">·1d</span></span></span><button class="undo">↺ undo</button></div>
-        <div class="iv" data-prog="tools-consolidation" data-section="raid"><span class="chk"></span><span class="text"><span class="badge I">I</span><div>Migration sponsorship sits with Sales Lead and GTM Lead — needs explicit handoff confirmation</div><span class="meta"><b>Sales Lead / GTM Lead</b> <span class="age">·1d</span></span></span><button class="undo">↺ undo</button></div>
-        <div class="iv" data-prog="tools-consolidation" data-section="raid"><span class="chk"></span><span class="text"><span class="badge D">D</span><div>Reduction metrics below target: ~13% net reduction at month 3 vs goal 30–50%</div><span class="meta"><b>You</b> <span class="age">·1d</span></span></span><button class="undo">↺ undo</button></div>
-        <div class="iv" data-prog="tools-consolidation" data-section="raid"><span class="chk"></span><span class="text"><span class="badge A">A</span><div>Confirm vendor renewal path with Procurement Lead and Data Lead — target shifted from this week to EOM</div><span class="meta"><b>Procurement Lead</b> <span class="age">·1d</span></span></span><button class="undo">↺ undo</button></div>
+        <div class="iv" data-prog="card-rewards" data-section="raid"><span class="chk"></span><span class="text"><span class="badge A">A</span><div>Partner API assumed ready for second test run this week — contingent on partner resolving 2 issues from Fri run first</div><span class="meta"><b>Partner</b> <span class="age warn">·2d</span></span></span><button class="undo">↺ undo</button></div>
+        <div class="iv" data-prog="card-rewards" data-section="raid"><span class="chk"></span><span class="text"><span class="badge D">D</span><div>Cardholder comms must go 14 days before go-live — Marketing approval is on the critical path; deadline is Thu</div><span class="meta"><b>Marketing Lead</b> <span class="age warn">·2d</span></span></span><button class="undo">↺ undo</button></div>
+        <div class="iv" data-prog="card-rewards" data-section="raid"><span class="chk"></span><span class="text"><span class="badge R">R</span><div>CS team not yet trained on new redemption flow — risk of incorrect handling at go-live if training schedule slips</div><span class="meta"><b>Ops Lead</b> <span class="age">·1d</span></span></span><button class="undo">↺ undo</button></div>
+        <div class="iv" data-prog="card-rewards" data-section="raid"><span class="chk"></span><span class="text"><span class="badge I">I</span><div>Rewards accrual logic update deployed to staging; QA sign-off expected by Wed</div><span class="meta"><b>Eng Lead</b> <span class="age">·1d</span></span></span><button class="undo">↺ undo</button></div>
       </div>
       <div class="raid-legend">R Risk · A Assumption · I Issue · D Dependency</div>
     </section>
 
     <section>
       <div class="label">What's hot</div>
-      <p style="margin:0;">Vendor wind-down is already underway operationally: upstream data job paused last week, schema migrated to the new platform. Partner API confirmed as replacement for most endpoints — that's the data-comparison answer you were waiting on. Wed bi-weekly anchors capacity stand-up and new TPM onboarding. EOM decision now framed around residual UI-loss and change-management questions, not data coverage.</p>
+      <p style="margin:0;">Mostly on track. Partner API test run Friday surfaced 2 issues — partner has them, fix expected this week. Comms approval is the scheduling risk: 14-day window before go-live means Marketing Lead must approve by Thursday latest. CS training starts next week and is on track. Accrual logic on staging, QA sign-off expected Wednesday.</p>
     </section>
 
     <details class="refs">
       <summary>Refs (3) · Source: your shared drive</summary>
       <ul>
-        <li><a href="https://example.com/sheet/EXAMPLE_DOC_ID_7" target="_blank">Tools Consolidation Roadmap</a></li>
-        <li><a href="https://example.com/doc/EXAMPLE_DOC_ID_8" target="_blank">Tools Proposal</a></li>
-        <li><a href="https://example.com/deck/EXAMPLE_DOC_ID_9" target="_blank">QBR Update — Tools Consolidation</a></li>
+        <li><a href="https://example.com/sheet/EXAMPLE_DOC_ID_7" target="_blank">Card Rewards — Go-live Checklist</a></li>
+        <li><a href="https://example.com/doc/EXAMPLE_DOC_ID_8" target="_blank">Partner API Integration Spec</a></li>
+        <li><a href="https://example.com/deck/EXAMPLE_DOC_ID_9" target="_blank">Cardholder Comms Draft</a></li>
       </ul>
     </details>
   </div>
