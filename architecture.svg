@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <style>
+      .bg { fill:#001E2B; }
+      .card { fill:#023430; stroke:#0F4A45; stroke-width:1.5; rx:10; }
+      .card-accent { fill:#012a26; stroke:#00ED64; stroke-width:1.5; rx:10; }
+      .card-storage { fill:#0a2a36; stroke:#4fb3d9; stroke-width:1.5; rx:10; }
+      .h1 { fill:#E1F2EE; font:600 22px -apple-system,system-ui,Segoe UI,Roboto,sans-serif; }
+      .h2 { fill:#E1F2EE; font:600 15px -apple-system,system-ui,Segoe UI,Roboto,sans-serif; }
+      .label { fill:#00ED64; font:600 11px -apple-system,system-ui,Segoe UI,Roboto,sans-serif; letter-spacing:0.08em; text-transform:uppercase; }
+      .label-blue { fill:#9bd8ec; font:600 11px -apple-system,system-ui,Segoe UI,Roboto,sans-serif; letter-spacing:0.08em; text-transform:uppercase; }
+      .src { fill:#E1F2EE; font:500 13px -apple-system,system-ui,Segoe UI,Roboto,sans-serif; }
+      .small { fill:#8FA8A6; font:11px -apple-system,system-ui,Segoe UI,Roboto,sans-serif; }
+      .smaller { fill:#8FA8A6; font:10px -apple-system,system-ui,Segoe UI,Roboto,sans-serif; }
+      .step { fill:#FFC832; font:500 12px -apple-system,system-ui,Segoe UI,Roboto,sans-serif; }
+      .flow { stroke:#00ED64; stroke-width:2; fill:none; }
+      .flow-loop { stroke:#4fb3d9; stroke-width:2; fill:none; stroke-dasharray:6,4; }
+    </style>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#00ED64"/>
+    </marker>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4fb3d9"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1200" height="800"/>
+
+  <!-- Title -->
+  <text class="h1" x="600" y="44" text-anchor="middle">Program Control Tower — architecture</text>
+  <text class="small" x="600" y="66" text-anchor="middle">Signal in · Synthesis hourly · Closures &amp; notes flow back · Source of truth lives in cloud storage</text>
+
+  <!-- ============ LEFT: SIGNAL SOURCES ============ -->
+  <text class="label" x="60" y="115">Signal sources</text>
+
+  <!-- Source boxes -->
+  <g transform="translate(40,130)">
+    <rect class="card" width="240" height="44"/>
+    <text class="src" x="20" y="29">📧  Email (starred = todos)</text>
+  </g>
+  <g transform="translate(40,184)">
+    <rect class="card" width="240" height="44"/>
+    <text class="src" x="20" y="29">📅  Calendar (next 24h, conflicts)</text>
+  </g>
+  <g transform="translate(40,238)">
+    <rect class="card" width="240" height="44"/>
+    <text class="src" x="20" y="29">📁  Cloud drive (recent doc edits)</text>
+  </g>
+  <g transform="translate(40,292)">
+    <rect class="card" width="240" height="44"/>
+    <text class="src" x="20" y="29">💬  Chat (program keywords, 14d)</text>
+  </g>
+  <g transform="translate(40,346)">
+    <rect class="card" width="240" height="44"/>
+    <text class="src" x="20" y="29">🔍  AI search (enterprise summaries)</text>
+  </g>
+  <g transform="translate(40,400)">
+    <rect class="card" width="240" height="44"/>
+    <text class="src" x="20" y="29">✅  Task tracker (open items)</text>
+  </g>
+  <g transform="translate(40,454)">
+    <rect class="card" width="240" height="44"/>
+    <text class="src" x="20" y="29">📝  Notes (your own, last 30d)</text>
+  </g>
+
+  <text class="smaller" x="160" y="525" text-anchor="middle">pulled in parallel by your AI agent</text>
+
+  <!-- Arrows from sources into refresh task -->
+  <path class="flow" d="M 285 152 C 360 152, 380 380, 460 380" marker-end="url(#arr)"/>
+  <path class="flow" d="M 285 206 C 360 206, 380 385, 460 385" marker-end="url(#arr)"/>
+  <path class="flow" d="M 285 260 C 360 260, 380 390, 460 390" marker-end="url(#arr)"/>
+  <path class="flow" d="M 285 314 C 360 314, 380 395, 460 395" marker-end="url(#arr)"/>
+  <path class="flow" d="M 285 368 C 360 368, 380 400, 460 400" marker-end="url(#arr)"/>
+  <path class="flow" d="M 285 422 C 360 422, 380 405, 460 405" marker-end="url(#arr)"/>
+  <path class="flow" d="M 285 476 C 360 476, 380 410, 460 410" marker-end="url(#arr)"/>
+
+  <!-- ============ CENTER: REFRESH TASK ============ -->
+  <g transform="translate(460,300)">
+    <rect class="card-accent" width="280" height="180"/>
+    <text class="label" x="140" y="28" text-anchor="middle">Refresh task</text>
+    <text class="h2" x="140" y="52" text-anchor="middle">Hourly · weekdays 08–19</text>
+    <line x1="20" y1="68" x2="260" y2="68" stroke="#0F4A45" stroke-width="1"/>
+    <text class="step" x="20" y="92">1. Pull signal (parallel)</text>
+    <text class="step" x="20" y="110">2. Read prior closures + notes</text>
+    <text class="step" x="20" y="128">3. Synthesize per program (AI)</text>
+    <text class="step" x="20" y="146">4. Auto-derive cross-program clashes</text>
+    <text class="step" x="20" y="164">5. Regenerate index.html in place</text>
+  </g>
+
+  <!-- Arrow from refresh task to dashboard -->
+  <path class="flow" d="M 740 390 L 830 390" marker-end="url(#arr)"/>
+
+  <!-- ============ RIGHT: DASHBOARD ============ -->
+  <g transform="translate(830,300)">
+    <rect class="card-accent" width="320" height="180"/>
+    <text class="label" x="160" y="28" text-anchor="middle">Control tower dashboard</text>
+    <text class="h2" x="160" y="52" text-anchor="middle">Single page · interactive</text>
+    <line x1="20" y1="68" x2="300" y2="68" stroke="#0F4A45" stroke-width="1"/>
+    <text class="step" x="20" y="92">• Next 24h meetings + clashes</text>
+    <text class="step" x="20" y="110">• Per-program: status, Next 3, RAID</text>
+    <text class="step" x="20" y="128">• Hover RAID → source refs popover</text>
+    <text class="step" x="20" y="146">• Per-line notes + doc attachments</text>
+    <text class="step" x="20" y="164">• Ask drawer (grounded AI chat)</text>
+  </g>
+
+  <!-- Arrow from dashboard down to user edits -->
+  <path class="flow" d="M 990 480 L 990 540" marker-end="url(#arr)"/>
+
+  <!-- ============ USER EDITS ============ -->
+  <g transform="translate(830,540)">
+    <rect class="card" width="320" height="100"/>
+    <text class="label" x="160" y="28" text-anchor="middle">User edits (you)</text>
+    <text class="step" x="20" y="54">☐ Close items as you act</text>
+    <text class="step" x="20" y="72">+ Add notes that override sources</text>
+    <text class="step" x="20" y="90">📎 Attach docs to specific lines</text>
+  </g>
+
+  <!-- ============ STORAGE ============ -->
+  <g transform="translate(400,580)">
+    <rect class="card-storage" width="400" height="120"/>
+    <text class="label-blue" x="200" y="28" text-anchor="middle">Cloud storage · source of truth</text>
+    <line x1="20" y1="42" x2="380" y2="42" stroke="#1f5a6e" stroke-width="1"/>
+    <text class="src" x="20" y="68">📄 [CTRL-TWR-STATE].md</text>
+    <text class="smaller" x="40" y="86">closures · notes · attachments (live state)</text>
+    <text class="src" x="20" y="108">📜 [CTRL-TWR-EDITS].log</text>
+  </g>
+  <text class="smaller" x="600" y="720" text-anchor="middle">survives every dashboard regeneration · read by the next refresh as context</text>
+
+  <!-- Loops: user edits → storage -->
+  <path class="flow-loop" d="M 830 595 C 770 595, 770 615, 800 615" marker-end="url(#arr-blue)"/>
+
+  <!-- Loop: storage → refresh task (feeds context) -->
+  <path class="flow-loop" d="M 400 635 C 350 635, 350 470, 460 470" marker-end="url(#arr-blue)"/>
+
+  <!-- Legend -->
+  <g transform="translate(40,720)">
+    <line x1="0" y1="6" x2="30" y2="6" class="flow" marker-end="url(#arr)"/>
+    <text class="small" x="40" y="10">data flow</text>
+    <line x1="120" y1="6" x2="150" y2="6" class="flow-loop" marker-end="url(#arr-blue)"/>
+    <text class="small" x="160" y="10">state loop (your edits feed tomorrow's synthesis)</text>
+  </g>
+</svg>

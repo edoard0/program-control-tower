@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Program Control Tower — Template</title>
+<!--
+  CONTROL TOWER — sanitized template
+  ------------------------------------------------------------------
+  A starter dashboard for program / project managers running 3–6
+  workstreams in parallel. Drop your own data into PROGRAMS below
+  and wire the sync hooks (search for "WIRE:") to your storage and
+  AI tools of choice.
+  ------------------------------------------------------------------
+-->
+<style>
+  :root {
+    color-scheme: dark;
+    --green:#00ED64; --yellow:#FFC832; --red:#FF6B6B;
+    --ink:#E1F2EE; --muted:#8FA8A6;
+    --line:#0F4A45; --bg:#001E2B; --card:#023430;
+    --accent:#00ED64; --raid-bg:#001A23;
+  }
+  * { box-sizing: border-box; }
+  html,body { margin:0; padding:0; background:var(--bg); color:var(--ink); font:14px/1.5 -apple-system,system-ui,Segoe UI,Roboto,sans-serif; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:1400px; margin:0 auto; padding:20px; }
+  h1 { font-size:22px; margin:0 0 4px; letter-spacing:-0.01em; }
+  h2 { font-size:13px; margin:0 0 10px; text-transform:uppercase; letter-spacing:0.06em; color:var(--muted); font-weight:600; }
+  h3 { font-size:16px; margin:0 0 4px; }
+  .subhdr { color:var(--muted); font-size:12px; margin-bottom:16px; }
+  .topbar { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:18px; flex-wrap:wrap; }
+  .toolbar { display:flex; gap:8px; align-items:center; }
+  .toolbar button { background:var(--accent); color:#001E2B; border:none; padding:8px 14px; border-radius:6px; font-size:13px; font-weight:600; cursor:pointer; transition:opacity 0.15s; }
+  .toolbar button:hover { opacity:0.9; }
+  .toolbar button.ghost { background:transparent; color:var(--muted); border:1px solid var(--line); }
+  .toolbar button.ghost:hover { color:var(--ink); border-color:var(--ink); }
+  .toolbar .ts { font-size:11px; color:var(--muted); padding:0 4px; }
+  .toolbar .counter { font-size:11px; color:var(--green); padding:0 4px; font-weight:600; }
+  .toolbar .counter:empty { display:none; }
+  .top-fold { display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:20px; }
+  .panel { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+  .panel ul { margin:0; padding-left:0; list-style:none; }
+  .panel li { margin-bottom:4px; }
+  .meeting .time { font-variant-numeric:tabular-nums; color:var(--muted); font-size:11px; margin-right:6px; }
+  .clash { padding:9px 0; border-bottom:1px dashed var(--line); font-size:13px; line-height:1.4; }
+  .clash:last-child { border-bottom:none; }
+  .clash .src { font-weight:600; color:var(--red); }
+  .clash .progs { display:flex; gap:4px; flex-wrap:wrap; margin-top:4px; }
+  .clash .prog-tag { font-size:10px; background:#012a26; border:1px solid var(--line); padding:2px 7px; border-radius:10px; color:var(--ink); font-variant:small-caps; letter-spacing:0.02em; }
+  .grid { display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap:14px; }
+  @media (max-width: 900px) { .grid, .top-fold { grid-template-columns: 1fr; } }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; display:flex; flex-direction:column; gap:12px; }
+  .card .head { display:flex; gap:10px; align-items:flex-start; }
+  .dot { width:14px; height:14px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+  .dot.g { background:var(--green); } .dot.y { background:var(--yellow); } .dot.r { background:var(--red); }
+  .card .titles { flex:1; min-width:0; }
+  .card .titles .sub { color:var(--muted); font-size:12px; margin-top:2px; }
+  .card section { padding-top:10px; border-top:1px dashed var(--line); }
+  .card section:first-of-type { padding-top:0; border-top:none; }
+  .card .label { font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:var(--muted); font-weight:600; margin-bottom:5px; }
+  .card .actions { background:#0a3d1a; border-left:3px solid var(--accent); padding:8px 10px 8px 12px; border-radius:0 6px 6px 0; }
+  .card .actions .label { color:var(--accent); }
+  .card ol, .card ul { margin:0; padding-left:0; list-style:none; }
+  .card ol li, .card ul li { margin-bottom:4px; line-height:1.45; }
+
+  /* INTERACTIVE ITEMS */
+  .iv { display:flex; align-items:flex-start; gap:7px; flex-wrap:wrap; position:relative; }
+  .iv .chk { display:inline-block; width:14px; height:14px; min-width:14px; border:1.5px solid #4A6B68; border-radius:3px; cursor:pointer; margin-top:4px; background:#001A23; position:relative; user-select:none; transition:all 0.15s ease; }
+  .iv .chk:hover { border-color:var(--accent); background:#003D2E; }
+  .iv .text { flex:1; min-width:0; }
+  .iv.done .chk { background:var(--green); border-color:var(--green); }
+  .iv.done .chk::after { content:""; position:absolute; left:3px; top:1px; width:4px; height:8px; border:solid #001E2B; border-width:0 1.5px 1.5px 0; transform:rotate(45deg); }
+  .iv.done .text { color:var(--muted); text-decoration:line-through; text-decoration-color:#4A6B68; }
+  .iv .undo { display:none; background:none; border:none; color:var(--accent); cursor:pointer; font-size:11px; padding:0 0 0 6px; flex-shrink:0; }
+  .iv.done .undo { display:inline; }
+  .raid .iv.done { display:none; } /* closed RAID items hide entirely */
+
+  /* per-item note / attach buttons */
+  .iv .note-btn, .iv .doc-btn { display:none; background:none; border:none; color:var(--accent); cursor:pointer; font-size:11px; padding:0 4px; flex-shrink:0; }
+  .iv:hover .note-btn, .iv:hover .doc-btn { display:inline; }
+  .iv.has-note .note-btn { display:inline; color:var(--muted); }
+  .iv-note { flex-basis:100%; font-size:11.5px; color:var(--muted); font-style:italic; padding:3px 8px; line-height:1.45; border-left:2px solid var(--accent); margin:3px 0 0 22px; background:#012a26; border-radius:0 4px 4px 0; }
+  .iv-note:empty { display:none; }
+  .iv-edit-area { flex-basis:100%; margin:6px 0 0 22px; display:none; }
+  .iv.editing .iv-edit-area { display:flex; gap:6px; }
+  .iv-edit-area input { flex:1; padding:5px 8px; font-size:12px; border:1px solid var(--line); border-radius:4px; background:#001A23; color:var(--ink); }
+  .iv-edit-area button { padding:5px 10px; font-size:11px; border:none; border-radius:4px; background:var(--accent); color:#001E2B; cursor:pointer; font-weight:600; }
+
+  .iv-attach { flex-basis:100%; margin:4px 0 0 22px; display:flex; gap:5px; flex-wrap:wrap; }
+  .iv-attach .chip { font-size:11px; padding:2px 8px; border-radius:10px; background:#012a26; border:1px solid var(--line); color:var(--ink); text-decoration:none; }
+  .iv-attach .chip.doc { border-color:#4f9eef; color:#9ec5f5; }
+  .iv-attach .chip.sheet { border-color:#34d399; color:#9af5cd; }
+  .iv-attach .chip.slide { border-color:#fbbf24; color:#fde68a; }
+  .iv-attach .chip .x { margin-left:4px; cursor:pointer; opacity:0.6; }
+
+  /* RAID + popover */
+  .raid { background:var(--raid-bg); border-radius:6px; padding:8px 10px; }
+  .raid .iv .badge { display:inline-block; font-size:10px; font-weight:700; padding:1px 6px; border-radius:3px; margin-right:4px; }
+  .raid .iv .badge.R { background:#4a1818; color:#ffb4b4; }
+  .raid .iv .badge.A { background:#4a3d18; color:#ffe9a3; }
+  .raid .iv .badge.I { background:#1a3d4a; color:#a3d8ff; }
+  .raid .iv .badge.D { background:#3d1a4a; color:#d4a3ff; }
+  .raid .iv .meta { display:block; font-size:11px; color:var(--muted); margin-top:3px; }
+  .raid-legend { margin-top:8px; font-size:10px; color:var(--muted); }
+  .age { display:inline-block; font-size:10px; color:var(--muted); margin-left:4px; }
+  .age.warn { color:var(--yellow); }
+  .age.crit { color:var(--red); font-weight:600; }
+
+  .raid-popover { position:absolute; left:100%; top:0; margin-left:10px; width:300px; padding:10px 12px; background:#001A23; border:1px solid var(--accent); border-radius:6px; box-shadow:0 4px 16px rgba(0,0,0,0.6); z-index:50; font-size:11.5px; display:none; }
+  .raid .iv:hover .raid-popover { display:block; }
+  .raid-popover .ttl { color:var(--accent); font-weight:600; margin-bottom:4px; font-size:11px; text-transform:uppercase; letter-spacing:0.06em; }
+  .raid-popover a { color:#9bd8ec; text-decoration:none; display:block; padding:2px 0; }
+  .raid-popover a:hover { text-decoration:underline; }
+
+  details.refs { margin-top:8px; font-size:12px; }
+  details.refs summary { color:var(--muted); cursor:pointer; padding:4px 0; }
+  details.refs ul { margin:4px 0 0; padding-left:18px; }
+  details.refs li { margin-bottom:3px; }
+  details.refs a { color:#9bd8ec; }
+
+  .footer { color:var(--muted); font-size:11px; margin-top:20px; text-align:center; padding:16px; border-top:1px solid var(--line); }
+
+  /* Ask drawer */
+  .ask-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.4); display:none; z-index:90; }
+  .ask-overlay.open { display:block; }
+  .ask-drawer { position:fixed; right:0; top:0; bottom:0; width:420px; max-width:90vw; background:var(--card); border-left:1px solid var(--line); transform:translateX(100%); transition:transform 0.25s ease; z-index:100; display:flex; flex-direction:column; }
+  .ask-drawer.open { transform:translateX(0); }
+  .ask-hdr { padding:14px 16px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  .ask-hdr .sub { color:var(--muted); font-size:11px; margin-top:2px; }
+  .ask-hdr button.close { background:none; border:none; color:var(--muted); cursor:pointer; font-size:22px; padding:0 4px; }
+  .ask-body { flex:1; overflow-y:auto; padding:14px 16px; }
+  .ask-empty { color:var(--muted); font-size:13px; }
+  .ask-suggest { display:flex; flex-direction:column; gap:5px; margin-top:10px; }
+  .ask-suggest button { background:#012a26; border:1px solid var(--line); color:var(--ink); padding:6px 10px; border-radius:5px; cursor:pointer; font-size:12px; text-align:left; }
+  .ask-suggest button:hover { border-color:var(--accent); }
+  .ask-input { padding:12px 16px; border-top:1px solid var(--line); display:flex; gap:8px; align-items:flex-start; flex-wrap:wrap; }
+  .ask-input textarea { flex:1; min-height:38px; max-height:140px; padding:8px 10px; border:1.5px solid var(--line); border-radius:6px; font-family:inherit; font-size:13px; resize:vertical; background:#001A23; color:var(--ink); }
+  .ask-input button { font-size:12px; padding:8px 12px; border:1px solid var(--accent); border-radius:6px; background:var(--accent); color:#001E2B; font-weight:700; cursor:pointer; }
+  .ask-msg { margin-bottom:12px; padding:10px 12px; border-radius:8px; font-size:13px; line-height:1.45; }
+  .ask-msg.user { background:#012a26; border:1px solid var(--line); }
+  .ask-msg.bot { background:#0a3d1a; border:1px solid #1f6e3a; }
+  .toolbar button.ask-btn { background:#012a26; border:1px solid var(--accent); color:var(--accent); font-weight:600; }
+  .toolbar button.ask-btn:hover { background:var(--accent); color:#001E2B; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="topbar">
+  <div>
+    <h1>Program Control Tower</h1>
+    <div class="subhdr">3 active programs · interactive · click ☐ to close items · auto-refreshes hourly (wire up your refresh task)</div>
+  </div>
+  <div class="toolbar">
+    <span class="counter" id="counter"></span>
+    <span class="ts" id="ts">—</span>
+    <button id="ask" class="ask-btn" title="Ask questions about what's on this dashboard (Cmd/Ctrl+K)">💬 Ask</button>
+    <button id="clear-closed" class="ghost" title="Un-close every item">↺ Reset closures</button>
+    <button id="refresh" title="Trigger your refresh task (wire it up)">⟳ Refresh</button>
+  </div>
+</div>
+
+<!-- TOP FOLD: meetings + cross-program clashes -->
+<div class="top-fold">
+  <div class="panel">
+    <h2>Next 24h · Key meetings</h2>
+    <ul id="meetings">
+      <li class="iv meeting" data-prog="meta" data-section="meetings"><span class="chk"></span><span class="text"><span class="time">Tue 14:30</span>Platform Migration weekly — first session post-charter sign-off; bring vendor shortlist framing<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+      <li class="iv meeting" data-prog="meta" data-section="meetings"><span class="chk"></span><span class="text"><span class="time">Wed 14:00</span>Customer Platform sync — pilot direction + rollout ADR review<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+      <li class="iv meeting" data-prog="meta" data-section="meetings"><span class="chk"></span><span class="text"><span class="time">Wed 16:00</span>Tools Consolidation steering — Q3 vendor reduction review<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+    </ul>
+  </div>
+  <div class="panel">
+    <h2>Cross-program clashes <span style="text-transform:none;letter-spacing:0;font-weight:normal;color:var(--muted);">· auto-derived</span></h2>
+    <div id="clashes">
+      <div class="iv clash" data-prog="meta" data-section="clash"><span class="text"><span class="src">Vendor decision ↔ migration sequencing</span> · The Tools Consolidation EOM vendor-cut decision overlaps the Platform Migration vendor shortlist. Hold both reviews in the same week or one will block the other.<div class="progs"><span class="prog-tag">Platform Migration</span><span class="prog-tag">Tools Consolidation</span></div><button class="note-btn">+ note</button></span></div>
+      <div class="iv clash" data-prog="meta" data-section="clash"><span class="text"><span class="src">Resource clash · Eng Lead on two paths</span> · Engineering Lead owns both Customer Platform GA scope and Platform Migration vendor evaluation. Pick one as primary for the next two weeks.<div class="progs"><span class="prog-tag">Customer Platform</span><span class="prog-tag">Platform Migration</span></div><button class="note-btn">+ note</button></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRAM CARDS -->
+<div class="grid">
+
+  <!-- PROGRAM A — Platform Migration -->
+  <div class="card" data-program="platform-migration">
+    <div class="head">
+      <div class="dot y"></div>
+      <div class="titles">
+        <h3>Platform Migration (FY27)</h3>
+        <div class="sub">Charter approved · vendor shortlist in progress · pilot kickoff target end of quarter · You = TPM</div>
+      </div>
+    </div>
+
+    <section class="actions" data-section-id="pm-actions">
+      <div class="label">Next 3 for you</div>
+      <ol>
+        <li class="iv" data-prog="platform-migration" data-section="action"><span class="chk"></span><span class="text">Convert the signed charter into a weekly-ready status pack with named asks (pilot owners, participant counts, approval path)<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="platform-migration" data-section="action"><span class="chk"></span><span class="text">Schedule async leadership review with GTM Lead + Sales Lead + IT Lead to confirm vendor-shortlist sign-off path<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="platform-migration" data-section="action"><span class="chk"></span><span class="text">Verify the security-rejection provenance on candidate vendor before re-citing in any leadership material<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+      </ol>
+    </section>
+
+    <section data-section-id="pm-decisions">
+      <div class="label">Decisions on others</div>
+      <ul>
+        <li class="iv" data-prog="platform-migration" data-section="dec-other"><span class="chk"></span><span class="text"><b>GTM Lead</b> — Confirm GTM-leadership representation path now that they declined the weekly forum <span class="age">·1d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="platform-migration" data-section="dec-other"><span class="chk"></span><span class="text"><b>Sales Lead</b> — Agree the leadership ask and approval path for kicking off evaluation and pilot participation <span class="age">·1d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="platform-migration" data-section="dec-other"><span class="chk"></span><span class="text"><b>IT Lead</b> — Confirm vendor-shortlist sign-off path and whether to start stakeholder roadshow now or after the QBR readout <span class="age">·1d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
+      </ul>
+    </section>
+
+    <section data-section-id="pm-raid">
+      <div class="label">Open RAID</div>
+      <div class="raid">
+        <div class="iv" data-prog="platform-migration" data-section="raid"><span class="chk"></span><span class="text"><span class="badge R">R</span><div>Charter sign-off and leadership approval still gating kickoff — doc shows comments resolved but approval status still Not Started</div><span class="meta"><b>GTM Lead / Sales Lead / IT Lead</b> <span class="age crit">·18d</span></span></span><button class="undo">↺ undo</button></div>
+        <div class="iv" data-prog="platform-migration" data-section="raid"><span class="chk"></span><span class="text"><span class="badge R">R</span><div>Leadership ask remains ambiguous: leaders need a crisp request beyond awareness, specifically pilot DRIs and approval scope</div><span class="meta"><b>Sales Lead</b> <span class="age">·1d</span></span></span><button class="undo">↺ undo</button></div>
+        <div class="iv" data-prog="platform-migration" data-section="raid"><span class="chk"></span><span class="text"><span class="badge I">I</span><div>Program direction converging on three candidate vendors; primary front-runner for POC, others as fast-followers</div><span class="meta"><b>Eng Lead</b> <span class="age">·1d</span></span></span><button class="undo">↺ undo</button></div>
+        <div class="iv" data-prog="platform-migration" data-section="raid"><span class="chk"></span><span class="text"><span class="badge D">D</span><div>Decide GTM-leader representative path now that the primary stakeholder declined the weekly — whether they can approve async or a broader review call is required</div><span class="meta"><b>GTM Lead</b> <span class="age">·1d</span></span></span><button class="undo">↺ undo</button></div>
+      </div>
+      <div class="raid-legend">R Risk · A Assumption · I Issue · D Dependency</div>
+    </section>
+
+    <section>
+      <div class="label">What's hot</div>
+      <p style="margin:0;">Weekly forum is in ~90 minutes — primary GTM stakeholder declined, so the forum can't double as leadership sign-off. Charter doc had a final touch this morning. New cross-program signal: an internal post framed Platform Migration as the eventual platform of record for the Customer Platform rollout — reinforces the primary vendor stance. Off-cycle async leadership review still needs scheduling this week.</p>
+    </section>
+
+    <details class="refs">
+      <summary>Refs (3) · Source: your shared drive</summary>
+      <ul>
+        <li><a href="https://example.com/doc/EXAMPLE_DOC_ID_1" target="_blank">Project Charter: FY27 Platform Migration</a></li>
+        <li><a href="https://example.com/deck/EXAMPLE_DOC_ID_2" target="_blank">Platform Migration — Exec Summary</a></li>
+        <li><a href="https://example.com/sheet/EXAMPLE_DOC_ID_3" target="_blank">Vendor Requirements Tracker</a></li>
+      </ul>
+    </details>
+  </div>
+
+  <!-- PROGRAM B — Customer Platform -->
+  <div class="card" data-program="customer-platform">
+    <div class="head">
+      <div class="dot y"></div>
+      <div class="titles">
+        <h3>Customer Platform Rollout</h3>
+        <div class="sub">Reset narrative ran Mon · awaiting exec direction · first read-out Wed GTM weekly · You = Program TPM</div>
+      </div>
+    </div>
+
+    <section class="actions" data-section-id="cp-actions">
+      <div class="label">Next 3 for you</div>
+      <ol>
+        <li class="iv" data-prog="customer-platform" data-section="action"><span class="chk"></span><span class="text">Lock coupled rollout GA scope/date with Eng Lead + Product Lead in Tue check-in; Wed ADR review feeds in<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="customer-platform" data-section="action"><span class="chk"></span><span class="text">Finalize the launch RACI offline with Cross-functional Lead after Wed exec workshop — feed exec readout back same day<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="customer-platform" data-section="action"><span class="chk"></span><span class="text">Drive pilot levers per Mon reset call: add 3 reps to pilot, rotate target accounts, expand the data window<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+      </ol>
+    </section>
+
+    <section data-section-id="cp-decisions">
+      <div class="label">Decisions on others</div>
+      <ul>
+        <li class="iv" data-prog="customer-platform" data-section="dec-other"><span class="chk"></span><span class="text"><b>IT Lead</b> — Confirm replacement exec reporting cadence and audience after the weekly email cadence stopped <span class="age">·1d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="customer-platform" data-section="dec-other"><span class="chk"></span><span class="text"><b>Exec Sponsor</b> — Set board-level direction following the Mon reset review (first surface in Wed GTM weekly) <span class="age">·1d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="customer-platform" data-section="dec-other"><span class="chk"></span><span class="text"><b>Cross-functional Lead</b> — Confirm post-launch RACI owners after the soft-launch monitoring window <span class="age">·1d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
+      </ul>
+    </section>
+
+    <section data-section-id="cp-raid">
+      <div class="label">Open RAID</div>
+      <div class="raid">
+        <div class="iv" data-prog="customer-platform" data-section="raid"><span class="chk"></span><span class="text"><span class="badge I">I</span><div>First-24h launch telemetry is unreliable — upstream data-lake issues have prevented jobs from completing since last Friday</div><span class="meta"><b>Data Eng Lead</b> <span class="age warn">·5d</span></span></span><button class="undo">↺ undo</button></div>
+        <div class="iv" data-prog="customer-platform" data-section="raid"><span class="chk"></span><span class="text"><span class="badge A">A</span><div>Rollout alignment converges across Tue check-in, Wed ADR review, Fri rollout plan — GA scope/date comms hinge on the coupled plan</div><span class="meta"><b>Eng Lead / Product Lead</b> <span class="age">·1d</span></span></span><button class="undo">↺ undo</button></div>
+        <div class="iv" data-prog="customer-platform" data-section="raid"><span class="chk"></span><span class="text"><span class="badge D">D</span><div>Pilot levers per exec reset: add reps, rotate target accounts, expand signals time horizon — pending exec confirm</div><span class="meta"><b>You / Exec Sponsor</b> <span class="age">·1d</span></span></span><button class="undo">↺ undo</button></div>
+        <div class="iv" data-prog="customer-platform" data-section="raid"><span class="chk"></span><span class="text"><span class="badge R">R</span><div>RACI close-out displaced — you declined the workshop (conflict with exec call). Needs Cross-functional Lead 1:1 follow-through to lock scope post-workshop</div><span class="meta"><b>Cross-functional Lead</b> <span class="age">·1d</span></span></span><button class="undo">↺ undo</button></div>
+      </div>
+      <div class="raid-legend">R Risk · A Assumption · I Issue · D Dependency</div>
+    </section>
+
+    <section>
+      <div class="label">What's hot</div>
+      <p style="margin:0;">Pilot moving into "keep current setup + tune levers" mode after Mon reset. Engineering unblock confirmed working. Wed decision: you on GTM weekly for the post-reset readout — workshop runs without you, needs lead follow-through. Upstream data fog still gating clean telemetry. Coupled GA scope to be locked at Tue Eng Lead check-in.</p>
+    </section>
+
+    <details class="refs">
+      <summary>Refs (3) · Source: your shared drive</summary>
+      <ul>
+        <li><a href="https://example.com/deck/EXAMPLE_DOC_ID_4" target="_blank">Customer Platform — Reset Exec Update</a></li>
+        <li><a href="https://example.com/doc/EXAMPLE_DOC_ID_5" target="_blank">Rollout FAQ</a></li>
+        <li><a href="https://example.com/doc/EXAMPLE_DOC_ID_6" target="_blank">GA Rollout Plan</a></li>
+      </ul>
+    </details>
+  </div>
+
+  <!-- PROGRAM C — Tools Consolidation -->
+  <div class="card" data-program="tools-consolidation">
+    <div class="head">
+      <div class="dot g"></div>
+      <div class="titles">
+        <h3>Tools Consolidation</h3>
+        <div class="sub">~13% reduction tracked vs 30–50% goal · centralized tracker live · You = workstream TPM</div>
+      </div>
+    </div>
+
+    <section class="actions" data-section-id="tc-actions">
+      <div class="label">Next 3 for you</div>
+      <ol>
+        <li class="iv" data-prog="tools-consolidation" data-section="action"><span class="chk"></span><span class="text">Confirm vendor renewal-by-EOM path with Procurement Lead and Data Lead — partner API confirmed as replacement for most endpoints<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="tools-consolidation" data-section="action"><span class="chk"></span><span class="text">Stand up dedicated rationalization capacity in Wed bi-weekly; onboard new TPM into the workstream<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="tools-consolidation" data-section="action"><span class="chk"></span><span class="text">Drive Sales Lead + GTM Lead alignment on the migration sponsorship handoff<button class="note-btn">+ note</button><button class="doc-btn">+ doc</button></span><button class="undo">↺ undo</button></li>
+      </ol>
+    </section>
+
+    <section data-section-id="tc-decisions">
+      <div class="label">Decisions on others</div>
+      <ul>
+        <li class="iv" data-prog="tools-consolidation" data-section="dec-other"><span class="chk"></span><span class="text"><b>Procurement Lead</b> — Decide whether to proceed with vendor renewal by EOM if replacement answers remain incomplete <span class="age">·1d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="tools-consolidation" data-section="dec-other"><span class="chk"></span><span class="text"><b>Sales Lead</b> — Confirm migration sponsorship and alignment with GTM Lead ahead of wider engagement <span class="age">·1d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
+        <li class="iv" data-prog="tools-consolidation" data-section="dec-other"><span class="chk"></span><span class="text"><b>Tracker Owner</b> — Maintain the SaaS roadmap tracker and add explicit owner/date assignment for open actions <span class="age">·1d</span><button class="note-btn">+ note</button></span><button class="undo">↺ undo</button></li>
+      </ul>
+    </section>
+
+    <section data-section-id="tc-raid">
+      <div class="label">Open RAID</div>
+      <div class="raid">
+        <div class="iv" data-prog="tools-consolidation" data-section="raid"><span class="chk"></span><span class="text"><span class="badge R">R</span><div>Vendor June decision blocked on replacement comparison, UI-loss and change-management questions</div><span class="meta"><b>Procurement Lead</b> <span class="age">·1d</span></span></span><button class="undo">↺ undo</button></div>
+        <div class="iv" data-prog="tools-consolidation" data-section="raid"><span class="chk"></span><span class="text"><span class="badge I">I</span><div>Migration sponsorship sits with Sales Lead and GTM Lead — needs explicit handoff confirmation</div><span class="meta"><b>Sales Lead / GTM Lead</b> <span class="age">·1d</span></span></span><button class="undo">↺ undo</button></div>
+        <div class="iv" data-prog="tools-consolidation" data-section="raid"><span class="chk"></span><span class="text"><span class="badge D">D</span><div>Reduction metrics below target: ~13% net reduction at month 3 vs goal 30–50%</div><span class="meta"><b>You</b> <span class="age">·1d</span></span></span><button class="undo">↺ undo</button></div>
+        <div class="iv" data-prog="tools-consolidation" data-section="raid"><span class="chk"></span><span class="text"><span class="badge A">A</span><div>Confirm vendor renewal path with Procurement Lead and Data Lead — target shifted from this week to EOM</div><span class="meta"><b>Procurement Lead</b> <span class="age">·1d</span></span></span><button class="undo">↺ undo</button></div>
+      </div>
+      <div class="raid-legend">R Risk · A Assumption · I Issue · D Dependency</div>
+    </section>
+
+    <section>
+      <div class="label">What's hot</div>
+      <p style="margin:0;">Vendor wind-down is already underway operationally: upstream data job paused last week, schema migrated to the new platform. Partner API confirmed as replacement for most endpoints — that's the data-comparison answer you were waiting on. Wed bi-weekly anchors capacity stand-up and new TPM onboarding. EOM decision now framed around residual UI-loss and change-management questions, not data coverage.</p>
+    </section>
+
+    <details class="refs">
+      <summary>Refs (3) · Source: your shared drive</summary>
+      <ul>
+        <li><a href="https://example.com/sheet/EXAMPLE_DOC_ID_7" target="_blank">Tools Consolidation Roadmap</a></li>
+        <li><a href="https://example.com/doc/EXAMPLE_DOC_ID_8" target="_blank">Tools Proposal</a></li>
+        <li><a href="https://example.com/deck/EXAMPLE_DOC_ID_9" target="_blank">QBR Update — Tools Consolidation</a></li>
+      </ul>
+    </details>
+  </div>
+
+</div>
+
+<div class="footer">
+  Interactive · click ☐ to close items · click "+ note" to add user context · hover any RAID item for source refs<br>
+  Aging: <span class="age">·neutral</span> &lt;3d · <span class="age warn">·amber</span> 3–7d · <span class="age crit">·red</span> 7d+ · R Risk · A Assumption · I Issue · D Dependency
+</div>
+
+</div>
+
+<!-- Ask drawer -->
+<div id="ask-overlay" class="ask-overlay"></div>
+<aside id="ask-drawer" class="ask-drawer" aria-hidden="true">
+  <div class="ask-hdr">
+    <div>
+      <h3 style="margin:0;">Ask the Control Tower</h3>
+      <div class="sub">Grounded in this dashboard's state — wire to your AI of choice (see WIRE: ASK)</div>
+    </div>
+    <button class="close" id="ask-close" aria-label="Close">×</button>
+  </div>
+  <div class="ask-body" id="ask-body">
+    <div class="ask-empty" id="ask-empty">
+      Ask anything about what's on this dashboard — open decisions, RAID items, attached docs, closures.
+      <div class="ask-suggest">
+        <button data-q="What are my top three priorities today?">Top three priorities today</button>
+        <button data-q="Which open decisions are blocking other people, sorted by age?">Decisions blocking others (with age)</button>
+        <button data-q="Summarize the cross-program clashes and the most urgent action.">Cross-program clashes &amp; urgent action</button>
+        <button data-q="What attached docs do I have and on which line?">List attached docs by line</button>
+      </div>
+    </div>
+  </div>
+  <div class="ask-input">
+    <textarea id="ask-text" rows="1" placeholder="Ask about a line, a program, or anything on the page…"></textarea>
+    <button id="ask-send">Send</button>
+  </div>
+</aside>
+
+<script>
+(function() {
+  // ─────────────────────────────────────────────────────────────────────
+  // Control Tower — minimal interactive runtime.
+  // State is persisted to localStorage and (when you wire it) to your
+  // cloud storage of choice. Everything keyed by `itemKey` which is a
+  // stable hash of (program | section | first 100 chars of text).
+  // ─────────────────────────────────────────────────────────────────────
+  const STATE_KEY = 'ctrl-twr-state';
+
+  function getState() {
+    try { return JSON.parse(localStorage.getItem(STATE_KEY)) || { closures:{}, notes:{}, attachments:{}, edits:[] }; }
+    catch { return { closures:{}, notes:{}, attachments:{}, edits:[] }; }
+  }
+  function saveState(s) { localStorage.setItem(STATE_KEY, JSON.stringify(s)); }
+  let state = getState();
+
+  function itemKey(item) {
+    const prog = item.dataset.prog || 'meta';
+    const section = item.dataset.section || 'x';
+    const txt = (item.querySelector('.text')?.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 100);
+    return `${prog}|${section}|${txt}`;
+  }
+
+  function logEdit(action, item, extra) {
+    const entry = { ts: new Date().toISOString(), action };
+    if (item) {
+      entry.prog = item.dataset.prog || 'meta';
+      entry.section = item.dataset.section || 'x';
+    }
+    if (extra) Object.assign(entry, extra);
+    state.edits.push(entry);
+    if (state.edits.length > 200) state.edits.splice(0, state.edits.length - 200);
+  }
+
+  // ─── Closures ────────────────────────────────────────────────────────
+  function applyClosures() {
+    document.querySelectorAll('.iv').forEach(item => {
+      const k = itemKey(item);
+      if (state.closures[k]) item.classList.add('done');
+    });
+    updateCounter();
+  }
+  function updateCounter() {
+    const total = document.querySelectorAll('.iv').length;
+    const closed = Object.keys(state.closures).length;
+    document.getElementById('counter').textContent = closed > 0 ? `${closed}/${total} closed` : '';
+  }
+
+  document.addEventListener('click', e => {
+    // Toggle closure
+    const chk = e.target.closest('.iv .chk');
+    if (chk) {
+      const item = chk.closest('.iv');
+      const k = itemKey(item);
+      if (state.closures[k]) {
+        delete state.closures[k];
+        item.classList.remove('done');
+        logEdit('reopen', item);
+      } else {
+        state.closures[k] = new Date().toISOString();
+        item.classList.add('done');
+        logEdit('close', item);
+      }
+      saveState(state); updateCounter(); scheduleSync();
+      return;
+    }
+    // Undo (un-close)
+    const undo = e.target.closest('.iv .undo');
+    if (undo) {
+      const item = undo.closest('.iv');
+      const k = itemKey(item);
+      delete state.closures[k];
+      item.classList.remove('done');
+      logEdit('reopen', item);
+      saveState(state); updateCounter(); scheduleSync();
+      return;
+    }
+    // Add / edit note
+    const nbtn = e.target.closest('.iv .note-btn');
+    if (nbtn) {
+      const item = nbtn.closest('.iv');
+      const k = itemKey(item);
+      const existing = state.notes[k]?.text || '';
+      openNoteEditor(item, existing);
+      return;
+    }
+    // Add attachment
+    const dbtn = e.target.closest('.iv .doc-btn');
+    if (dbtn) {
+      const item = dbtn.closest('.iv');
+      const url = prompt('Paste a URL to attach to this line:');
+      if (url) addAttachment(item, url);
+      return;
+    }
+    // Remove attachment
+    const x = e.target.closest('.iv-attach .x');
+    if (x) {
+      const chip = x.closest('.chip');
+      const item = chip.closest('.iv');
+      const k = itemKey(item);
+      const url = chip.dataset.url;
+      state.attachments[k] = (state.attachments[k] || []).filter(a => a.url !== url);
+      if (state.attachments[k].length === 0) delete state.attachments[k];
+      saveState(state); renderAttachments(item); scheduleSync();
+      logEdit('detach', item, { url });
+    }
+  });
+
+  // ─── Notes ───────────────────────────────────────────────────────────
+  function openNoteEditor(item, existing) {
+    item.classList.add('editing');
+    let area = item.querySelector('.iv-edit-area');
+    if (!area) {
+      area = document.createElement('div');
+      area.className = 'iv-edit-area';
+      area.innerHTML = '<input type="text" placeholder="add a note…" /><button>save</button>';
+      item.appendChild(area);
+    }
+    const input = area.querySelector('input');
+    input.value = existing;
+    input.focus();
+    const save = () => {
+      const v = input.value.trim();
+      const k = itemKey(item);
+      if (v) {
+        state.notes[k] = { text: v, updatedAt: new Date().toISOString() };
+        logEdit('note-set', item, { note: v });
+      } else if (state.notes[k]) {
+        delete state.notes[k];
+        logEdit('note-clear', item);
+      }
+      saveState(state); item.classList.remove('editing'); renderNote(item); scheduleSync();
+    };
+    area.querySelector('button').onclick = save;
+    input.onkeydown = e => { if (e.key === 'Enter') save(); if (e.key === 'Escape') item.classList.remove('editing'); };
+  }
+  function renderNote(item) {
+    const k = itemKey(item);
+    const n = state.notes[k];
+    let el = item.querySelector('.iv-note');
+    if (n) {
+      if (!el) { el = document.createElement('div'); el.className = 'iv-note'; item.appendChild(el); }
+      el.textContent = n.text;
+      item.classList.add('has-note');
+    } else {
+      if (el) el.remove();
+      item.classList.remove('has-note');
+    }
+  }
+  function renderAllNotes() { document.querySelectorAll('.iv').forEach(renderNote); }
+
+  // ─── Attachments ─────────────────────────────────────────────────────
+  function addAttachment(item, url) {
+    const k = itemKey(item);
+    const type = url.includes('docs') ? 'doc' : url.includes('sheets') ? 'sheet' : url.includes('slides') || url.includes('presentation') ? 'slide' : 'doc';
+    // WIRE: STORAGE — replace this with a metadata-fetch call to your
+    // file-storage API (Drive `files.get`, OneDrive `driveItem`, S3
+    // `HeadObject`, etc.) to resolve the human-readable title. For the
+    // template we just use the host.
+    let title;
+    try { title = new URL(url).hostname.replace('www.', '') + ' link'; }
+    catch { title = 'attachment'; }
+    state.attachments[k] = state.attachments[k] || [];
+    state.attachments[k].push({ url, title, type, addedAt: new Date().toISOString() });
+    saveState(state); renderAttachments(item); scheduleSync();
+    logEdit('attach', item, { url, type });
+  }
+  function renderAttachments(item) {
+    const k = itemKey(item);
+    const atts = state.attachments[k] || [];
+    let el = item.querySelector('.iv-attach');
+    if (!atts.length) { el?.remove(); return; }
+    if (!el) { el = document.createElement('div'); el.className = 'iv-attach'; item.appendChild(el); }
+    el.innerHTML = atts.map(a => `<a class="chip ${a.type}" href="${a.url}" target="_blank" data-url="${a.url}">${a.title}<span class="x" title="remove">×</span></a>`).join('');
+  }
+  function renderAllAttachments() { document.querySelectorAll('.iv').forEach(renderAttachments); }
+
+  // ─── RAID source tooltips ────────────────────────────────────────────
+  // For each RAID item, attach a popover that shows the parent card's
+  // Refs links. Pure derivation from DOM — no schema change.
+  document.querySelectorAll('.card').forEach(card => {
+    const refs = card.querySelector('details.refs');
+    if (!refs) return;
+    const refList = refs.querySelector('ul')?.innerHTML || '';
+    if (!refList) return;
+    card.querySelectorAll('.raid .iv').forEach(iv => {
+      const pop = document.createElement('div');
+      pop.className = 'raid-popover';
+      pop.innerHTML = `<div class="ttl">Source refs</div><ul style="list-style:none;padding:0;margin:0;">${refList}</ul>`;
+      iv.appendChild(pop);
+    });
+  });
+
+  // ─── Sync (WIRE: STORAGE) ────────────────────────────────────────────
+  // The real Control Tower writes state.closures + state.notes + state.attachments
+  // to two files in cloud storage (Drive, OneDrive, Dropbox, S3, etc.):
+  //   [CTRL-TWR-STATE].md  — state snapshot (read by the refresh task)
+  //   [CTRL-TWR-EDITS].log — chronological audit trail
+  // Wire your storage integration here. Debounce 2s so a flurry of
+  // clicks collapses into one write.
+  let syncTimer = null;
+  function scheduleSync() {
+    clearTimeout(syncTimer);
+    syncTimer = setTimeout(() => {
+      // WIRE: STORAGE — replace this stub with calls to your storage of
+      // choice. The shape is the same whatever you use:
+      //   await storage.upsertFile('[CTRL-TWR-STATE].md', stateToMarkdown(state));
+      //   await storage.appendFile('[CTRL-TWR-EDITS].log', newEditLines);
+      // (Could be MCP tools, OpenAI function-calls, a fetch() to your
+      //  own backend, a direct cloud SDK call — your choice.)
+      console.log('[sync stub] would push state to cloud storage', state);
+    }, 2000);
+  }
+
+  // ─── Reset / refresh ─────────────────────────────────────────────────
+  document.getElementById('clear-closed').onclick = () => {
+    if (!confirm('Re-open all closed items?')) return;
+    state.closures = {};
+    document.querySelectorAll('.iv.done').forEach(i => i.classList.remove('done'));
+    logEdit('reset-closures');
+    saveState(state); updateCounter(); scheduleSync();
+  };
+  document.getElementById('refresh').onclick = () => {
+    // WIRE: REFRESH — trigger your scheduled refresh task on demand.
+    // Examples:
+    //   await fetch('/api/control-tower/refresh', { method: 'POST' });
+    //   await scheduler.runNow('control-tower-refresh');   // n8n, Temporal, etc.
+    //   await mcp.scheduledTasks.runNow('control-tower-refresh'); // if using MCP
+    alert('Wire this button to your refresh task (see WIRE: REFRESH in the script).');
+  };
+
+  // ─── Ask drawer (WIRE: ASK) ──────────────────────────────────────────
+  const askBtn = document.getElementById('ask');
+  const askDrawer = document.getElementById('ask-drawer');
+  const askOverlay = document.getElementById('ask-overlay');
+  const askClose = document.getElementById('ask-close');
+  const askBody = document.getElementById('ask-body');
+  const askText = document.getElementById('ask-text');
+  const askSend = document.getElementById('ask-send');
+
+  function openAsk() { askDrawer.classList.add('open'); askOverlay.classList.add('open'); askText.focus(); }
+  function closeAsk() { askDrawer.classList.remove('open'); askOverlay.classList.remove('open'); }
+  askBtn.onclick = openAsk;
+  askClose.onclick = closeAsk;
+  askOverlay.onclick = closeAsk;
+  document.addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openAsk(); }
+    if (e.key === 'Escape') closeAsk();
+  });
+  document.querySelectorAll('.ask-suggest button').forEach(b => {
+    b.onclick = () => { askText.value = b.dataset.q; askSend.click(); };
+  });
+  function snapshotForAsk() {
+    // Snapshot of live dashboard state for grounding the AI answer.
+    const programs = [];
+    document.querySelectorAll('.card').forEach(card => {
+      const prog = card.dataset.program;
+      const items = [];
+      card.querySelectorAll('.iv').forEach(iv => {
+        const k = itemKey(iv);
+        items.push({
+          key: k,
+          section: iv.dataset.section,
+          text: iv.querySelector('.text')?.textContent.trim(),
+          closed: !!state.closures[k],
+          note: state.notes[k]?.text,
+          attachments: state.attachments[k]?.map(a => a.url) || []
+        });
+      });
+      programs.push({ program: prog, items });
+    });
+    return { programs, edits: state.edits.slice(-20) };
+  }
+  askSend.onclick = async () => {
+    const q = askText.value.trim();
+    if (!q) return;
+    askText.value = '';
+    document.getElementById('ask-empty')?.remove();
+    const userMsg = document.createElement('div');
+    userMsg.className = 'ask-msg user';
+    userMsg.textContent = q;
+    askBody.appendChild(userMsg);
+    const botMsg = document.createElement('div');
+    botMsg.className = 'ask-msg bot';
+    botMsg.textContent = 'Thinking…';
+    askBody.appendChild(botMsg);
+    askBody.scrollTop = askBody.scrollHeight;
+    // WIRE: ASK — replace this stub with a call to whatever AI you've got.
+    // The snapshot below is the grounding context — send it as either a
+    // user message preamble or as a system prompt with the question.
+    // Works with any chat-completion API: Claude, OpenAI, Gemini, a local
+    // model behind an OpenAI-compatible endpoint, Glean, your own gateway.
+    const snapshot = snapshotForAsk();
+    console.log('[ask stub] question:', q, 'snapshot:', snapshot);
+    // Example pseudo-code (OpenAI-compatible shape — most providers match it):
+    //   const answer = await ai.chat({
+    //     model: 'claude-haiku-4-5',   // or 'gpt-4o-mini', 'gemini-flash', etc.
+    //     messages: [
+    //       { role: 'system', content: 'You are a PM assistant. Answer using only the dashboard snapshot.' },
+    //       { role: 'user', content: 'Dashboard snapshot:\n```json\n' + JSON.stringify(snapshot, null, 2) + '\n```\n\nQuestion: ' + q }
+    //     ]
+    //   });
+    //   botMsg.textContent = answer;
+    botMsg.textContent = '⚠️ Ask drawer is stubbed — wire your AI provider at WIRE: ASK in the script.';
+  };
+  askText.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); askSend.click(); }
+  });
+
+  // ─── Boot ────────────────────────────────────────────────────────────
+  applyClosures();
+  renderAllNotes();
+  renderAllAttachments();
+  document.getElementById('ts').textContent = 'Last refresh: never (wire a refresh task)';
+})();
+</script>
+</body>
+</html>
